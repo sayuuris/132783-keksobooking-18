@@ -6,13 +6,16 @@ var OFFER_TYPE = ['palace', 'flat', 'house', 'bungalo'];
 var OFFER_ROOMS = [1, 2, 3, 4];
 var OFFER_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var OFFER_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
-var AVATAR_WIDTH = 50;
-var AVATAR_HEIGHT = 70;
-var LOCATION_X_MIN = 40;
-var LOCATION_X_MAX = 1220;
-var LOCATION_Y_MIN = 0;
-var LOCATION_Y_MAX = 730;
-
+var avatar = {
+  WIDTH: 50,
+  HEIGHT: 70
+};
+var locationCoordinates = {
+  X_MIN: 40,
+  X_MAX: 1220,
+  Y_MIN: 0,
+  Y_MAX: 730
+};
 var getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
@@ -33,8 +36,8 @@ var getOffers = function () {
   var randomLocationX = 0;
   var randomLocationY = 0;
   for (var i = 1; i <= OFFER_AMOUNT; i++) {
-    randomLocationX = getRandomInt(LOCATION_X_MIN, LOCATION_X_MAX);
-    randomLocationY = getRandomInt(LOCATION_Y_MIN, LOCATION_Y_MAX);
+    randomLocationX = getRandomInt(locationCoordinates.X_MIN, locationCoordinates.X_MAX);
+    randomLocationY = getRandomInt(locationCoordinates.Y_MIN, locationCoordinates.Y_MAX);
     result.push({
       author: {
         'avatar': 'img/avatars/user0' + i + '.png'
@@ -68,24 +71,26 @@ var pinTemplate = document.querySelector('#pin')
     .content
     .querySelector('.map__pin');
 
-var renderPinFromTemplate = function (data) {
+var renderPinFromTemplate = function (offersData) {
   var pinElem = pinTemplate.cloneNode(true);
-  pinElem.style.left = (data.location.x - AVATAR_WIDTH / 2) + 'px';
-  pinElem.style.top = (data.location.y - AVATAR_HEIGHT) + 'px';
+  pinElem.style.left = (offersData.location.x - avatar.WIDTH / 2) + 'px';
+  pinElem.style.top = (offersData.location.y - avatar.HEIGHT) + 'px';
   var pinImgElem = pinElem.querySelector('img');
-  pinImgElem.src = data.author.avatar;
-  pinImgElem.alt = data.offer.title;
+  pinImgElem.src = offersData.author.avatar;
+  pinImgElem.alt = offersData.offer.title;
   return pinElem;
 
 };
 
-var renderPins = function (data) {
+var renderPins = function (offersData) {
   var result = document.createDocumentFragment();
-  for (var i = 0; i < data.length; i++) {
-    result.appendChild(renderPinFromTemplate(data[i]));
+  for (var i = 0; i < offersData.length; i++) {
+    result.appendChild(renderPinFromTemplate(offersData[i]));
   }
   return result;
+
 };
+
 var pinContainerElem = mapElem.querySelector('.map__pins');
 pinContainerElem.appendChild(renderPins(getOffers()));
 
