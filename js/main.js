@@ -81,7 +81,6 @@ var renderPinFromTemplate = function (offersData) {
   return pinElem;
 
 };
-
 var renderPins = function (offersData) {
   var result = document.createDocumentFragment();
   for (var i = 0; i < offersData.length; i++) {
@@ -93,4 +92,44 @@ var renderPins = function (offersData) {
 
 var pinContainerElem = mapElem.querySelector('.map__pins');
 pinContainerElem.appendChild(renderPins(getOffers()));
+
+var cardTemplate = document.querySelector('#card')
+    .content
+    .querySelector('.map__card');
+
+var getRusApartamentType = function (engApartamentType) {
+  if (engApartamentType === 'flat') {
+    return 'Квартира';
+  } else if (engApartamentType === 'bungalo') {
+    return 'Бунгало';
+  } else if (engApartamentType === 'house') {
+    return 'Дом';
+  } else if (engApartamentType === 'palace') {
+    return 'Дворец';
+  } else {
+    return engApartamentType;
+  }
+};
+var renderCardFromTemplate = function (offersData) {
+  var cardElem = cardTemplate.cloneNode(true);
+  cardElem.querySelector('.popup__title').textContent = offersData.offer.title;
+  cardElem.querySelector('.popup__text--address').textContent = offersData.offer.address;
+  cardElem.querySelector('.popup__text--price').innerHTML = offersData.offer.price + '&#8381;' + '/ночь';
+  cardElem.querySelector('.popup__type').textContent = getRusApartamentType(offersData.offer.type);
+  cardElem.querySelector('.popup__text--capacity').textContent = offersData.offer.rooms + ' комнаты для ' + offersData.offer.guests + ' гостей';
+  cardElem.querySelector('.popup__text--time').textContent = 'Заезд после ' + offersData.offer.checkin + ', выезд до ' + offersData.offer.checkout;
+  cardElem.querySelector('.popup__description').textContent = offersData.offer.description;
+  cardElem.querySelector('.popup__avatar').setAttribute('src', offersData.author.avatar);
+
+  return cardElem;
+};
+
+var renderCards = function (offersData) {
+  var result = document.createDocumentFragment();
+  for (var i = 0; i < offersData.length; i++) {
+    result.appendChild(renderCardFromTemplate(offersData[i]));
+  }
+  return result;
+};
+cardTemplate.appendChild(renderCards(getOffers()));
 
