@@ -81,7 +81,6 @@ var renderPinFromTemplate = function (offersData) {
   return pinElem;
 
 };
-
 var renderPins = function (offersData) {
   var result = document.createDocumentFragment();
   for (var i = 0; i < offersData.length; i++) {
@@ -94,3 +93,66 @@ var renderPins = function (offersData) {
 var pinContainerElem = mapElem.querySelector('.map__pins');
 pinContainerElem.appendChild(renderPins(getOffers()));
 
+
+var cardTemplate = document.querySelector('#card')
+    .content
+    .querySelector('.map__card');
+
+var getRusApartamentType = function (engApartamentType) {
+  switch (engApartamentType) {
+    case 'flat':
+      return 'Квартира';
+    case 'bungalo':
+      return 'Бунгало';
+    case 'house':
+      return 'Дом';
+    case 'palace':
+      return 'Дворец';
+    default:
+      return engApartamentType;
+  }
+};
+
+var addFacilitiesToOffers = function (facilities) {
+  var FacilitiesToOffers = document.createDocumentFragment();
+
+  for (var i = 0; i < facilities.length; i++) {
+    var FacilityToOffers = document.createElement('li');
+    FacilityToOffers.classList.add('popup__feature', 'popup__feature--' + facilities[i]);
+
+    FacilitiesToOffers.appendChild(FacilityToOffers);
+  }
+  return FacilitiesToOffers;
+};
+
+var renderCardFromTemplate = function (offersData) {
+  var cardElem = cardTemplate.cloneNode(true);
+  var cardPhotoTemplate = cardElem.querySelector('.popup__photo');
+  cardElem.querySelector('.popup__title').textContent = offersData.offer.title;
+  cardElem.querySelector('.popup__text--address').textContent = offersData.offer.address;
+  cardElem.querySelector('.popup__text--price').innerHTML = offersData.offer.price + '&#8381;' + '/ночь';
+  cardElem.querySelector('.popup__type').textContent = getRusApartamentType(offersData.offer.type);
+  cardElem.querySelector('.popup__text--capacity').textContent = offersData.offer.rooms + ' комнаты для ' + offersData.offer.guests + ' гостей';
+  cardElem.querySelector('.popup__text--time').textContent = 'Заезд после ' + offersData.offer.checkin + ', выезд до ' + offersData.offer.checkout;
+  cardElem.querySelector('.popup__features').innerHTML = '';
+  cardElem.querySelector('.popup__features').appendChild(addFacilitiesToOffers(offersData.offer.features));
+  cardElem.querySelector('.popup__description').textContent = offersData.offer.description;
+  cardElem.querySelector('.popup__photos').innerHTML = '';
+  cardElem.querySelector('.popup__avatar').setAttribute('src', offersData.author.avatar);
+
+  for (var i = 0; i < offersData.offer.photos.length; i++) {
+    var photo = cardPhotoTemplate.cloneNode(true);
+    photo.src = offersData.offer.photos[i];
+    cardElem.querySelector('.popup__photos').appendChild(photo);
+  }
+  return cardElem;
+
+};
+var mapFilter = document.querySelector('.map__filters-container');
+var renderCard = function (offersData) {
+
+  var result = document.createDocumentFragment();
+  result.appendChild(renderCardFromTemplate(offersData[0]));
+  return mapElem.insertBefore(result, mapFilter);
+};
+pinContainerElem.appendChild(renderCard(getOffers()));
