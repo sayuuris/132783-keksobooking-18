@@ -10,6 +10,11 @@ var OFFER_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http:
   WIDTH: 50,
   HEIGHT: 70
 }; */
+var mainPin = {
+  WIDTH: 100,
+  HEIGHT: 100,
+  NIDDLE: 20
+};
 /* var locationCoordinates = {
   X_MIN: 40,
   X_MAX: 1220,
@@ -70,7 +75,15 @@ var getRandomArrFromParent = function (parentArray) {
 var mapElem = document.querySelector('.map');
 var OfferForm = document.querySelector('.ad-form');
 
+var getAddress = function () {
+  var peak = mapElem.classList.contains('map--faded') ? 0 : MainPin.NIDDLE;
+  var x = Math.round(parseInt(mainPin.style.left, 10) + MainPin.HEIGHT / 2);
+  var y = Math.round(parseInt(mainPin.style.top, 10) + MainPin.WIDTH / 2 + peak);
+  return x + ', ' + y;
+};
 
+var adAddress = OfferForm.querySelector('#address');
+var filterForm = document.querySelector('.map__filters');
 var activatePage = function () {
   mapElem.classList.remove('map--faded');
   OfferForm.classList.remove('ad-form--disabled');
@@ -78,6 +91,9 @@ var activatePage = function () {
   formElements.forEach(function (item) {
     item.disabled = false;
   });
+  var featuresElement = filterForm.querySelector('.map__features');
+  featuresElement.disabled = false;
+  adAddress.value = getAddress();
 };
 var deactivatePage = function () {
   mapElem.classList.add('map--faded');
@@ -86,6 +102,9 @@ var deactivatePage = function () {
   formElements.forEach(function (item) {
     item.disabled = true;
   });
+  var featuresElement = filterForm.querySelector('.map__features');
+  featuresElement.disabled = true;
+  adAddress.value = getAddress();
 };
 
 var MainPin = document.querySelector('.map__pin--main');
