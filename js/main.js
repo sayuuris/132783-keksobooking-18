@@ -10,11 +10,13 @@ var OFFER_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http:
   WIDTH: 50,
   HEIGHT: 70
 }; */
-var mainPin = {
+var centralPin = {
   WIDTH: 100,
   HEIGHT: 100,
   NIDDLE: 20
 };
+var ENTER_KEYCODE = 13;
+
 /* var locationCoordinates = {
   X_MIN: 40,
   X_MAX: 1220,
@@ -76,9 +78,9 @@ var mapElem = document.querySelector('.map');
 var OfferForm = document.querySelector('.ad-form');
 
 var getAddress = function () {
-  var peak = mapElem.classList.contains('map--faded') ? 0 : mainPin.NIDDLE;
-  var x = Math.round(parseInt(MainPin.style.left, 10) + mainPin.HEIGHT / 2);
-  var y = Math.round(parseInt(MainPin.style.top, 10) + mainPin.WIDTH / 2 + peak);
+  var peak = mapElem.classList.contains('map--faded') ? 0 : centralPin.NIDDLE;
+  var x = Math.round(parseInt(mainPin.style.left, 10) + centralPin.HEIGHT / 2);
+  var y = Math.round(parseInt(mainPin.style.top, 10) + centralPin.WIDTH / 2 + peak);
   return x + ', ' + y;
 };
 
@@ -107,12 +109,12 @@ var deactivatePage = function () {
   adAddress.value = getAddress();
 };
 
-var MainPin = document.querySelector('.map__pin--main');
-MainPin.addEventListener('mousedown', function () {
+var mainPin = document.querySelector('.map__pin--main');
+mainPin.addEventListener('mousedown', function () {
   activatePage();
 });
-MainPin.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === 27) {
+mainPin.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
     activatePage();
   }
 });
