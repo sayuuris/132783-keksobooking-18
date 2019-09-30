@@ -76,9 +76,9 @@ var mapElem = document.querySelector('.map');
 var OfferForm = document.querySelector('.ad-form');
 
 var getAddress = function () {
-  var peak = mapElem.classList.contains('map--faded') ? 0 : MainPin.NIDDLE;
-  var x = Math.round(parseInt(mainPin.style.left, 10) + MainPin.HEIGHT / 2);
-  var y = Math.round(parseInt(mainPin.style.top, 10) + MainPin.WIDTH / 2 + peak);
+  var peak = mapElem.classList.contains('map--faded') ? 0 : mainPin.NIDDLE;
+  var x = Math.round(parseInt(MainPin.style.left, 10) + mainPin.HEIGHT / 2);
+  var y = Math.round(parseInt(MainPin.style.top, 10) + mainPin.WIDTH / 2 + peak);
   return x + ', ' + y;
 };
 
