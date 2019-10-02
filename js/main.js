@@ -123,6 +123,8 @@ var activatePage = function () {
   var featuresElement = filterForm.querySelector('.map__features');
   featuresElement.disabled = false;
   adAddress.value = getAddress();
+  mainPin.removeEventListener('mousedown', onMainPinMouseDown);
+  mainPin.removeEventListener('keydown', onMainPinKeyDown);
 };
 
 var deactivatePage = function () {
@@ -145,10 +147,15 @@ var deactivatePage = function () {
   featuresElement.disabled = true;
   adAddress.value = getAddress();
 };
-
-mainPin.addEventListener('mousedown', function () {
+var onMainPinMouseDown = function () {
   activatePage();
-});
+};
+var onMainPinKeyDown = function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    activatePage();
+  }
+};
+mainPin.addEventListener('mousedown', onMainPinMouseDown);
 
 offerForm.addEventListener('submit', function (evt) {
   evt.preventDefault();
@@ -167,11 +174,8 @@ capacity.addEventListener('change', function () {
   validateCapacity();
 });
 
-mainPin.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
-    activatePage();
-  }
-});
+mainPin.addEventListener('keydown', onMainPinKeyDown);
+
 
 deactivatePage();
 adAddress.value = getAddress();
