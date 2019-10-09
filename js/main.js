@@ -253,10 +253,9 @@ var validatePrice = function () {
   } else {
     price.setCustomValidity('Минимальная цена за ночь ' + minPrice);
   }
-};
-type.addEventListener('change', function () {
-  validatePrice();
-});
+};//type.addEventListener('change', function () {
+  //validatePrice();
+//});
 
 var addFacilitiesToOffers = function (facilities) {
   var FacilitiesToOffers = document.createDocumentFragment();
