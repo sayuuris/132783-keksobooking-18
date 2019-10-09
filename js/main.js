@@ -170,6 +170,7 @@ mainPin.addEventListener('mousedown', onMainPinMouseDown);
 offerForm.addEventListener('submit', function (evt) {
   evt.preventDefault();
   validateCapacity();
+  validatePrice();
   if (evt.currentTarget.checkValidity()) {
     evt.currentTarget.submit();
   }
