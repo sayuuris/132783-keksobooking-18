@@ -22,7 +22,6 @@
   window.page.offerForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
     validateCapacity();
-    validatePrice();
     if (evt.currentTarget.checkValidity()) {
       evt.currentTarget.submit();
     }
@@ -34,18 +33,13 @@
   capacity.addEventListener('change', function () {
     validateCapacity();
   });
-  var validatePrice = function () {
-    var priceVal = parseInt(price.value, 10);
-    var minPrice = window.map.OFFER_TYPE_MAP[type.value].minPrice;
-    price.setAttribute('placeholder', minPrice);
-    if (price.validity.valueMissing) {
-      price.setCustomValidity('Обязятельное поле');
-    } else if (priceVal >= minPrice) {
-      price.setCustomValidity('');
-    } else {
-      price.setCustomValidity('Минимальная цена за ночь ' + minPrice);
-    }
+  var onTypeChange = function () {
+    var minPrice = window.map.OFFER_TYPE_MAP[type.value];
+    price.placeholder = minPrice;
+    price.min = minPrice;
   };
+  type.addEventListener('change', onTypeChange);
+  onTypeChange();
   timeInField.addEventListener('change', function () {
     timeOutField.value = timeInField.value;
   });

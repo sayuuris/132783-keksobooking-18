@@ -1,18 +1,10 @@
 'use strict';
 (function () {
   var OFFER_TYPE_MAP = {
-    'palace': {
-      'minPrice': 10000,
-    },
-    'house': {
-      'minPrice': 5000,
-    },
-    'flat': {
-      'minPrice': 1000,
-    },
-    'bungalo': {
-      'minPrice': 0,
-    },
+    'palace': 10000,
+    'house': 5000,
+    'flat': 1000,
+    'bungalo': 0
   };
   var avatar = {
     WIDTH: 50,
