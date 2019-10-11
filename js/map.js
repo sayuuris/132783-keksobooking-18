@@ -10,9 +10,16 @@
     WIDTH: 50,
     HEIGHT: 70
   };
-
+  var MAP_X_RANGE = {
+    min: 0,
+    max: 1200
+  };
+  var MAP_Y_RANGE = {
+    min: 130,
+    max: 630
+  };
   var mapElem = document.querySelector('.map');
-
+  /* var pinsContainer = document.querySelector('.map__pins'); */
   var mapFilter = document.querySelector('.map__filters-container');
   var pinTemplate = document.querySelector('#pin')
     .content
@@ -107,6 +114,8 @@
     mapElem: mapElem,
     OFFER_TYPE_MAP: OFFER_TYPE_MAP,
     renderPins: renderPins,
-
+    MAP_X_RANGE: MAP_X_RANGE,
+    MAP_Y_RANGE: MAP_Y_RANGE,
+    avatar: avatar
   };
 })();

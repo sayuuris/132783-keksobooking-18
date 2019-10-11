@@ -10,8 +10,8 @@
   var adAddress = offerForm.querySelector('#address');
   var filterForm = document.querySelector('.map__filters');
   var centralPin = {
-    WIDTH: 100,
-    HEIGHT: 100,
+    WIDTH: 65,
+    HEIGHT: 65,
     NIDDLE: 20
   };
 
@@ -93,8 +93,12 @@
         x: moveEvt.clientX,
         y: moveEvt.clientY
       };
-      mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
-      mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
+      if (mainPin.offsetTop - shift.y > window.map.MAP_Y_RANGE.min - window.map.avatar.HEIGHT && mainPin.offsetTop - shift.y < window.map.MAP_Y_RANGE.max) {
+        mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
+      }
+      if (mainPin.offsetLeft - shift.x > window.map.MAP_X_RANGE.min - centralPin.WIDTH / 2 && mainPin.offsetLeft - shift.x < window.map.MAP_X_RANGE.max - centralPin.WIDTH / 2) {
+        mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
+      }
 
     };
 
