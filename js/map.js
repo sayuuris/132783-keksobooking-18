@@ -1,26 +1,26 @@
 'use strict';
 (function () {
+  var mapElem = document.querySelector('.map');
   var OFFER_TYPE_MAP = {
-    'palace': {
-      'minPrice': 10000,
-    },
-    'house': {
-      'minPrice': 5000,
-    },
-    'flat': {
-      'minPrice': 1000,
-    },
-    'bungalo': {
-      'minPrice': 0,
-    },
+    'palace': 10000,
+    'house': 5000,
+    'flat': 1000,
+    'bungalo': 0
   };
   var avatar = {
     WIDTH: 50,
     HEIGHT: 70
   };
+  var MAP_X_RANGE = {
+    min: 0,
+    max: mapElem.clientWidth
+  };
+  var MAP_Y_RANGE = {
+    min: 130,
+    max: 630
+  };
 
-  var mapElem = document.querySelector('.map');
-
+  /* var pinsContainer = document.querySelector('.map__pins'); */
   var mapFilter = document.querySelector('.map__filters-container');
   var pinTemplate = document.querySelector('#pin')
     .content
@@ -115,6 +115,8 @@
     mapElem: mapElem,
     OFFER_TYPE_MAP: OFFER_TYPE_MAP,
     renderPins: renderPins,
-
+    MAP_X_RANGE: MAP_X_RANGE,
+    MAP_Y_RANGE: MAP_Y_RANGE,
+    avatar: avatar
   };
 })();

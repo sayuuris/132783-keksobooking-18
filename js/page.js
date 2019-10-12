@@ -10,16 +10,16 @@
   var adAddress = offerForm.querySelector('#address');
   var filterForm = document.querySelector('.map__filters');
   var centralPin = {
-    WIDTH: 100,
-    HEIGHT: 100,
+    WIDTH: 65,
+    HEIGHT: 65,
     NIDDLE: 20
   };
 
   var locationCoordinates = {
     X_MIN: 40,
     X_MAX: 1220,
-    Y_MIN: 0,
-    Y_MAX: 730
+    Y_MIN: 130,
+    Y_MAX: 630
   };
 
   var getOffers = function () {
@@ -70,7 +70,55 @@
   };
   mainPin.addEventListener('mousedown', onMainPinMouseDown);
   mainPin.addEventListener('keydown', onMainPinKeyDown);
+  mainPin.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
 
+    var startCoords = {
+      x: evt.clientX,
+      y: evt.clientY
+    };
+
+    var dragged = false;
+
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
+      dragged = true;
+      adAddress.value = getAddress();
+      var shift = {
+        x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY
+      };
+
+      startCoords = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+      if (mainPin.offsetTop - shift.y > window.map.MAP_Y_RANGE.min - window.map.avatar.HEIGHT && mainPin.offsetTop - shift.y < window.map.MAP_Y_RANGE.max) {
+        mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
+      }
+      if (mainPin.offsetLeft - shift.x > window.map.MAP_X_RANGE.min - centralPin.WIDTH / 2 && mainPin.offsetLeft - shift.x < window.map.MAP_X_RANGE.max - centralPin.WIDTH / 2) {
+        mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
+      }
+
+    };
+
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+
+      if (dragged) {
+        var onClickPreventDefault = function (ev) {
+          ev.preventDefault();
+          mainPin.removeEventListener('click', onClickPreventDefault);
+        };
+        mainPin.addEventListener('click', onClickPreventDefault);
+      }
+
+    };
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  });
   var activatePage = function () {
     var offers = getOffers();
     window.map.mapElem.classList.remove('map--faded');
