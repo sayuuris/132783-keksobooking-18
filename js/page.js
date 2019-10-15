@@ -1,13 +1,9 @@
 'use strict';
 (function () {
-  var OFFER_AMOUNT = 8;
-  var OFFER_TYPE = ['palace', 'flat', 'house', 'bungalo'];
-  var OFFER_ROOMS = [1, 2, 3, 100];
-  var OFFER_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-  var OFFER_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
   var mainPin = window.map.mapElem.querySelector('.map__pin--main');
   var offerForm = document.querySelector('.ad-form');
   var adAddress = offerForm.querySelector('#address');
+  var mainPage = document.querySelector('main');
   var filterForm = document.querySelector('.map__filters');
   var centralPin = {
     WIDTH: 65,
@@ -15,45 +11,6 @@
     NIDDLE: 20
   };
 
-  var locationCoordinates = {
-    X_MIN: 40,
-    X_MAX: 1220,
-    Y_MIN: 130,
-    Y_MAX: 630
-  };
-
-  var getOffers = function () {
-    var result = [];
-    var randomLocationX = 0;
-    var randomLocationY = 0;
-    for (var i = 1; i <= OFFER_AMOUNT; i++) {
-      randomLocationX = window.utils.getRandomInt(locationCoordinates.X_MIN, locationCoordinates.X_MAX);
-      randomLocationY = window.utils.getRandomInt(locationCoordinates.Y_MIN, locationCoordinates.Y_MAX);
-      result.push({
-        author: {
-          'avatar': 'img/avatars/user0' + i + '.png'
-        },
-        offer: {
-          title: 'заголовок предложения',
-          address: randomLocationX + ',' + randomLocationY,
-          price: window.utils.getRandomInt(5000, 100000),
-          type: OFFER_TYPE[window.utils.getRandomInt(0, 3)],
-          rooms: OFFER_ROOMS[window.utils.getRandomInt(0, 3)],
-          guests: window.utils.getRandomInt(0, 3),
-          checkin: '1' + window.utils.getRandomInt(2, 4) + ':00',
-          checkout: '1' + window.utils.getRandomInt(2, 4) + ':00',
-          features: window.utils.getRandomArrFromParent(OFFER_FEATURES),
-          description: 'строка с описанием',
-          photos: window.utils.getRandomArrFromParent(OFFER_PHOTOS)
-        },
-        location: {
-          x: randomLocationX,
-          y: randomLocationY
-        }
-      });
-    }
-    return result;
-  };
   var getAddress = function () {
     var peak = window.map.mapElem.classList.contains('map--faded') ? 0 : centralPin.WIDTH;
     var x = Math.round(parseInt(mainPin.style.left, 10) + centralPin.HEIGHT / 2);
@@ -114,18 +71,15 @@
         };
         mainPin.addEventListener('click', onClickPreventDefault);
       }
-
     };
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
   var activatePage = function () {
-    var offers = getOffers();
     window.map.mapElem.classList.remove('map--faded');
     offerForm.classList.remove('ad-form--disabled');
     var formElements = offerForm.querySelectorAll('.ad-form__element');
-    var pinContainerElem = window.map.mapElem.querySelector('.map__pins');
-    pinContainerElem.appendChild(window.map.renderPins(offers));
+    window.backend.load(window.map.renderPins, getError);
     formElements.forEach(function (item) {
       item.disabled = false;
     });
@@ -164,11 +118,29 @@
     featuresElement.disabled = true;
     adAddress.value = getAddress();
   };
-
+  var getError = function (message) {
+    var errorTemplate = document.querySelector('#error').content.querySelector('.error');
+    var errorElement = errorTemplate.cloneNode(true);
+    var errorButton = errorTemplate.querySelector('.error__button');
+    errorElement.querySelector('.error__message').textContent = message;
+    mainPage.insertBefore(errorElement, mainPage.firstChild);
+    errorButton.addEventListener('click', function () {
+      errorElement.remove();
+    });
+    errorElement.addEventListener('click', function () {
+      errorElement.remove();
+    });
+    document.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === window.utils.ESC_KEYCODE) {
+        errorElement.remove();
+      }
+    });
+  };
   deactivatePage();
   adAddress.value = getAddress();
   window.page = {
     offerForm: offerForm,
+    getError: getError
   };
 })();
 

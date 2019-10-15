@@ -92,6 +92,7 @@
     }
   };
   var renderPins = function (offersData) {
+    var pinContainerElem = window.map.mapElem.querySelector('.map__pins');
     var result = document.createDocumentFragment();
     for (var i = 0; i < offersData.length; i++) {
       var renderedPin = renderPinFromTemplate(offersData[i]);
@@ -108,8 +109,9 @@
       })();
       result.appendChild(renderedPin);
     }
-    return result;
+    pinContainerElem.appendChild(result);
   };
+
 
   window.map = {
     mapElem: mapElem,
@@ -117,6 +119,7 @@
     renderPins: renderPins,
     MAP_X_RANGE: MAP_X_RANGE,
     MAP_Y_RANGE: MAP_Y_RANGE,
-    avatar: avatar
+    avatar: avatar,
+    renderPinFromTemplate: renderPinFromTemplate
   };
 })();
