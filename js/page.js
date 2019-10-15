@@ -8,6 +8,7 @@
   var mainPin = window.map.mapElem.querySelector('.map__pin--main');
   var offerForm = document.querySelector('.ad-form');
   var adAddress = offerForm.querySelector('#address');
+  var mainPage = document.querySelector('main');
   var filterForm = document.querySelector('.map__filters');
   var centralPin = {
     WIDTH: 65,
@@ -114,7 +115,6 @@
         };
         mainPin.addEventListener('click', onClickPreventDefault);
       }
-
     };
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
@@ -126,6 +126,7 @@
     var formElements = offerForm.querySelectorAll('.ad-form__element');
     var pinContainerElem = window.map.mapElem.querySelector('.map__pins');
     pinContainerElem.appendChild(window.map.renderPins(offers));
+    window.backend.load(window.map.renderPins, getError);
     formElements.forEach(function (item) {
       item.disabled = false;
     });
@@ -164,11 +165,29 @@
     featuresElement.disabled = true;
     adAddress.value = getAddress();
   };
-
+  var getError = function (message) {
+    var errorTemplate = document.querySelector('#error').content.querySelector('.error');
+    var errorElement = errorTemplate.cloneNode(true);
+    var errorButton = errorTemplate.querySelector('.error__button');
+    errorElement.querySelector('.error__message').textContent = message;
+    mainPage.insertBefore(errorElement, mainPage.firstChild);
+    errorButton.addEventListener('click', function () {
+      errorElement.remove();
+    });
+    errorElement.addEventListener('click', function () {
+      errorElement.remove();
+    });
+    document.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === window.utils.ESC_KEYCODE) {
+        errorElement.remove();
+      }
+    });
+  };
   deactivatePage();
   adAddress.value = getAddress();
   window.page = {
     offerForm: offerForm,
+    getError: getError
   };
 })();
 
