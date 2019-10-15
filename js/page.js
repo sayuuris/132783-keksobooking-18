@@ -1,10 +1,11 @@
 'use strict';
 (function () {
-  var OFFER_AMOUNT = 8;
+  /* var OFFER_AMOUNT = 8;
   var OFFER_TYPE = ['palace', 'flat', 'house', 'bungalo'];
   var OFFER_ROOMS = [1, 2, 3, 100];
   var OFFER_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
   var OFFER_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+  */
   var mainPin = window.map.mapElem.querySelector('.map__pin--main');
   var offerForm = document.querySelector('.ad-form');
   var adAddress = offerForm.querySelector('#address');
@@ -16,14 +17,14 @@
     NIDDLE: 20
   };
 
-  var locationCoordinates = {
+  /* var locationCoordinates = {
     X_MIN: 40,
     X_MAX: 1220,
     Y_MIN: 130,
     Y_MAX: 630
   };
-
-  var getOffers = function () {
+*/
+  /* var getOffers = function () {
     var result = [];
     var randomLocationX = 0;
     var randomLocationY = 0;
@@ -55,6 +56,7 @@
     }
     return result;
   };
+  */
   var getAddress = function () {
     var peak = window.map.mapElem.classList.contains('map--faded') ? 0 : centralPin.WIDTH;
     var x = Math.round(parseInt(mainPin.style.left, 10) + centralPin.HEIGHT / 2);
@@ -120,12 +122,9 @@
     document.addEventListener('mouseup', onMouseUp);
   });
   var activatePage = function () {
-    var offers = getOffers();
     window.map.mapElem.classList.remove('map--faded');
     offerForm.classList.remove('ad-form--disabled');
     var formElements = offerForm.querySelectorAll('.ad-form__element');
-    var pinContainerElem = window.map.mapElem.querySelector('.map__pins');
-    pinContainerElem.appendChild(window.map.renderPins(offers));
     window.backend.load(window.map.renderPins, getError);
     formElements.forEach(function (item) {
       item.disabled = false;
