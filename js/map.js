@@ -111,12 +111,30 @@
     }
     pinContainerElem.appendChild(result);
   };
+  var removePins = function () {
+    var pinButtons = document.querySelectorAll('.map__pin[type=button]');
+    pinButtons.forEach(function (it) {
+      it.remove();
+    });
+  };
 
+  var removePopup = function () {
+    var popup = document.querySelector('.popup');
+    if (popup) {
+      popup.remove();
+    }
+    var activePin = document.querySelector('.map__pin--active');
+    if (activePin) {
+      activePin.classList.remove('map__pin--active');
+    }
+  };
 
   window.map = {
     mapElem: mapElem,
     OFFER_TYPE_MAP: OFFER_TYPE_MAP,
     renderPins: renderPins,
+    removePins: removePins,
+    removePopup: removePopup,
     MAP_X_RANGE: MAP_X_RANGE,
     MAP_Y_RANGE: MAP_Y_RANGE,
     avatar: avatar,

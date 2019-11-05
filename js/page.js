@@ -5,12 +5,35 @@
   var adAddress = offerForm.querySelector('#address');
   var mainPage = document.querySelector('main');
   var filterForm = document.querySelector('.map__filters');
+  var MAIN_PIN_START_LEFT = 570;
+  var MAIN_PIN_START_TOP = 375;
   var centralPin = {
     WIDTH: 65,
     HEIGHT: 65,
     NIDDLE: 20
   };
+  var setMainPinStartCoords = function () {
+    mainPin.style.left = MAIN_PIN_START_LEFT + 'px';
+    mainPin.style.top = MAIN_PIN_START_TOP + 'px';
+  };
+  var removeSuccessPopup = function () {
+    var popup = mainPage.querySelector('.success');
+    if (popup) {
+      popup.remove();
+    }
+  };
 
+  var onSuccessPopupKeydown = function (evt) {
+    if (evt.keyCode === window.utils.ESC_KEYCODE) {
+      removeSuccessPopup();
+    }
+    document.removeEventListener('keydown', onSuccessPopupKeydown);
+  };
+
+  var onSuccessPopupClick = function () {
+    removeSuccessPopup();
+    document.removeEventListener('keydown', onSuccessPopupClick);
+  };
   var getAddress = function () {
     var peak = window.map.mapElem.classList.contains('map--faded') ? 0 : centralPin.WIDTH;
     var x = Math.round(parseInt(mainPin.style.left, 10) + centralPin.HEIGHT / 2);
@@ -94,8 +117,8 @@
     var featuresElement = filterForm.querySelector('.map__features');
     featuresElement.disabled = false;
     adAddress.value = getAddress();
-    mainPin.removeEventListener('mousedown', onMainPinMouseDown);
-    mainPin.removeEventListener('keydown', onMainPinKeyDown);
+    /* mainPin.removeEventListener('mousedown', onMainPinMouseDown);
+    mainPin.removeEventListener('keydown', onMainPinKeyDown); */
   };
 
   var deactivatePage = function () {
@@ -116,6 +139,10 @@
 
     var featuresElement = filterForm.querySelector('.map__features');
     featuresElement.disabled = true;
+    offerForm.reset();
+    window.map.removePins();
+    window.map.removePopup();
+    setMainPinStartCoords();
     adAddress.value = getAddress();
   };
   var getError = function (message) {
@@ -136,11 +163,20 @@
       }
     });
   };
+  var showSuccess = function () {
+    var successTemplate = document.querySelector('#success').content.querySelector('.success');
+    var successElement = successTemplate.cloneNode(true);
+    document.addEventListener('keydown', onSuccessPopupKeydown);
+    successElement.addEventListener('click', onSuccessPopupClick);
+    mainPage.insertBefore(successElement, mainPage.firstChild);
+    deactivatePage();
+  };
   deactivatePage();
   adAddress.value = getAddress();
   window.page = {
     offerForm: offerForm,
-    getError: getError
+    getError: getError,
+    showSuccess: showSuccess
   };
 })();
 

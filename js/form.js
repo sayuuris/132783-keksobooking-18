@@ -23,7 +23,7 @@
     evt.preventDefault();
     validateCapacity();
     if (evt.currentTarget.checkValidity()) {
-      evt.currentTarget.submit();
+      window.backend.save(new FormData(window.page.offerForm), window.page.showSuccess, window.page.getError);
     }
     evt.currentTarget.reportValidity();
   });
