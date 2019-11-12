@@ -1,6 +1,7 @@
 'use strict';
 (function () {
   var mapElem = document.querySelector('.map');
+  var MAX_PINS = 5;
   var OFFER_TYPE_MAP = {
     'palace': 10000,
     'house': 5000,
@@ -43,6 +44,7 @@
   };
 
   var renderPinFromTemplate = function (offersData) {
+
     var pinElem = pinTemplate.cloneNode(true);
     pinElem.style.left = (offersData.location.x - avatar.WIDTH / 2) + 'px';
     pinElem.style.top = (offersData.location.y - avatar.HEIGHT) + 'px';
@@ -93,6 +95,7 @@
   };
   var renderPins = function (offersData) {
     var pinContainerElem = window.map.mapElem.querySelector('.map__pins');
+    offersData = offersData.slice(0, MAX_PINS);
     var result = document.createDocumentFragment();
     for (var i = 0; i < offersData.length; i++) {
       var renderedPin = renderPinFromTemplate(offersData[i]);
@@ -110,6 +113,10 @@
       result.appendChild(renderedPin);
     }
     pinContainerElem.appendChild(result);
+  };
+  var filteredPins = function (offersData) {
+    var filteredOffers = window.filter.filterOffers(offersData);
+    renderPins(filteredOffers);
   };
   var removePins = function () {
     var pinButtons = document.querySelectorAll('.map__pin[type=button]');
@@ -138,6 +145,7 @@
     MAP_X_RANGE: MAP_X_RANGE,
     MAP_Y_RANGE: MAP_Y_RANGE,
     avatar: avatar,
-    renderPinFromTemplate: renderPinFromTemplate
+    renderPinFromTemplate: renderPinFromTemplate,
+    filteredPins: filteredPins,
   };
 })();
