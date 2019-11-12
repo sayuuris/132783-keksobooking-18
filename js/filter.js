@@ -3,8 +3,8 @@
   var filter = document.querySelector('.map__filters');
   var filterType = filter.querySelector('#housing-type');
 
-  var filterByType = function (item) {
-    return filterType.value === 'any' || item.offer.type === filterType.value;
+  var filterByType = function (offerType) {
+    return filterType.value === 'any' || offerType === filterType.value;
   };
   var filterOffers = function (offersData) {
     return offersData.filter(function (item) {
@@ -12,12 +12,12 @@
     });
   };
 
-  /* var updatePins = function () {
+  var updatePins = function () {
     window.map.removePopup();
     window.map.removePins();
     window.map.renderPinFromTemplate(filterOffers(window.map.ads));
   };
-  filter.addEventListener('change', window.utils.debounce(updatePins)); */
+  filter.addEventListener('change', window.utils.debounce(updatePins));
   window.filter = {
     filterOffers: filterOffers
   };

@@ -115,6 +115,7 @@
     pinContainerElem.appendChild(result);
   };
   var filteredPins = function (offersData) {
+    window.map.ads = offersData;
     var filteredOffers = window.filter.filterOffers(offersData);
     renderPins(filteredOffers);
   };
