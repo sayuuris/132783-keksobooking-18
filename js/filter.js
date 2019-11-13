@@ -15,7 +15,7 @@
   var updatePins = function () {
     window.map.removePopup();
     window.map.removePins();
-    window.map.renderPinFromTemplate(filterOffers(window.map.ads));
+    window.map.renderPins(filterOffers(window.map.ads));
   };
   filter.addEventListener('change', window.utils.debounce(updatePins));
   window.filter = {

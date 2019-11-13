@@ -33,15 +33,15 @@
 
   var addFacilitiesToOffers = function (facilities) {
     var FacilitiesToOffers = document.createDocumentFragment();
-
-    for (var i = 0; i < facilities.length; i++) {
+    facilities.forEach(function (facility) {
       var FacilityToOffers = document.createElement('li');
-      FacilityToOffers.classList.add('popup__feature', 'popup__feature--' + facilities[i]);
+      FacilityToOffers.classList.add('popup__feature', 'popup__feature--' + facility);
 
       FacilitiesToOffers.appendChild(FacilityToOffers);
-    }
-    return FacilitiesToOffers;
+      return FacilitiesToOffers;
+    });
   };
+
 
   var renderPinFromTemplate = function (offerData) {
     var pinElem = pinTemplate.cloneNode(true);
@@ -97,10 +97,10 @@
     var pinContainerElem = window.map.mapElem.querySelector('.map__pins');
     offersData = offersData.slice(0, MAX_PINS);
     var result = document.createDocumentFragment();
-    for (var i = 0; i < offersData.length; i++) {
-      var renderedPin = renderPinFromTemplate(offersData[i]);
+    offersData.forEach(function (offerData) {
+      var renderedPin = renderPinFromTemplate(offerData);
       (function () {
-        var data = offersData[i];
+        var data = offerData;
         renderedPin.addEventListener('click', function () {
           closeCard();
           renderCard(data);
@@ -111,7 +111,7 @@
         });
       })();
       result.appendChild(renderedPin);
-    }
+    });
     pinContainerElem.appendChild(result);
   };
   var filteredPins = function (offersData) {
