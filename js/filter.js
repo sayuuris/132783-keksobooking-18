@@ -5,6 +5,18 @@
   var filterPrice = filter.querySelector('#housing-price');
   var filterRoom = filter.querySelector('#housing-rooms');
   var filterGuest = filter.querySelector('#housing-guests');
+  var houseFeatures = document.querySelector('#housing-features');
+  var filterFeatureWIFI = houseFeatures.querySelector('#filter-wifi');
+  var filterFeatureDishwasher = houseFeatures.querySelector('#filter-dishwasher');
+  var filterFeatureParking = houseFeatures.querySelector('#filter-parking');
+  var filterFeatureWasher = houseFeatures.querySelector('#filter-washer');
+  var filterFeatureElevator = houseFeatures.querySelector('#filter-elevator');
+  var filterFeatureConditioner = houseFeatures.querySelector('#filter-conditioner');
+
+  var selectHouseFeatures = function (element, offerFeature) {
+    return (offerFeature.offer.features.indexOf(element.value) !== -1) || (!element.checked);
+  };
+
   var housePrice = {
     LOW: {
       max: 10000,
@@ -48,7 +60,7 @@
   };
   var filterOffers = function (offersData) {
     return offersData.filter(function (item) {
-      return item.offer && filterByType(item.offer.type) && filterByRooms(item.offer.rooms) && filterByGuests(item.offer.guests) && filterByPrice(item.offer.price);
+      return item.offer && filterByType(item.offer.type) && filterByRooms(item.offer.rooms) && filterByGuests(item.offer.guests) && filterByPrice(item.offer.price) && selectHouseFeatures(filterFeatureWIFI, item) && selectHouseFeatures(filterFeatureDishwasher, item) && selectHouseFeatures(filterFeatureParking, item) && selectHouseFeatures(filterFeatureWasher, item) && selectHouseFeatures(filterFeatureElevator, item) && selectHouseFeatures(filterFeatureConditioner, item);
     });
   };
 
