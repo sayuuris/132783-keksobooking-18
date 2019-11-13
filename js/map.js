@@ -43,14 +43,14 @@
     return FacilitiesToOffers;
   };
 
-  var renderPinFromTemplate = function (offersData) {
-
+  var renderPinFromTemplate = function (offerData) {
     var pinElem = pinTemplate.cloneNode(true);
-    pinElem.style.left = (offersData.location.x - avatar.WIDTH / 2) + 'px';
-    pinElem.style.top = (offersData.location.y - avatar.HEIGHT) + 'px';
+    pinElem.style.left = (offerData.location.x - avatar.WIDTH / 2) + 'px';
+
+    pinElem.style.top = (offerData.location.y - avatar.HEIGHT) + 'px';
     var pinImgElem = pinElem.querySelector('img');
-    pinImgElem.src = offersData.author.avatar;
-    pinImgElem.alt = offersData.offer.title;
+    pinImgElem.src = offerData.author.avatar;
+    pinImgElem.alt = offerData.offer.title;
     return pinElem;
   };
   var renderCard = function (offerData) {
