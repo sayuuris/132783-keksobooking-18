@@ -1,6 +1,7 @@
 'use strict';
 (function () {
   var mapElem = document.querySelector('.map');
+  var MAX_PINS = 5;
   var OFFER_TYPE_MAP = {
     'palace': 10000,
     'house': 5000,
@@ -32,23 +33,24 @@
 
   var addFacilitiesToOffers = function (facilities) {
     var FacilitiesToOffers = document.createDocumentFragment();
-
-    for (var i = 0; i < facilities.length; i++) {
+    facilities.forEach(function (facility) {
       var FacilityToOffers = document.createElement('li');
-      FacilityToOffers.classList.add('popup__feature', 'popup__feature--' + facilities[i]);
+      FacilityToOffers.classList.add('popup__feature', 'popup__feature--' + facility);
 
       FacilitiesToOffers.appendChild(FacilityToOffers);
-    }
-    return FacilitiesToOffers;
+      return FacilitiesToOffers;
+    });
   };
 
-  var renderPinFromTemplate = function (offersData) {
+
+  var renderPinFromTemplate = function (offerData) {
     var pinElem = pinTemplate.cloneNode(true);
-    pinElem.style.left = (offersData.location.x - avatar.WIDTH / 2) + 'px';
-    pinElem.style.top = (offersData.location.y - avatar.HEIGHT) + 'px';
+    pinElem.style.left = (offerData.location.x - avatar.WIDTH / 2) + 'px';
+
+    pinElem.style.top = (offerData.location.y - avatar.HEIGHT) + 'px';
     var pinImgElem = pinElem.querySelector('img');
-    pinImgElem.src = offersData.author.avatar;
-    pinImgElem.alt = offersData.offer.title;
+    pinImgElem.src = offerData.author.avatar;
+    pinImgElem.alt = offerData.offer.title;
     return pinElem;
   };
   var renderCard = function (offerData) {
@@ -93,11 +95,12 @@
   };
   var renderPins = function (offersData) {
     var pinContainerElem = window.map.mapElem.querySelector('.map__pins');
+    offersData = offersData.slice(0, MAX_PINS);
     var result = document.createDocumentFragment();
-    for (var i = 0; i < offersData.length; i++) {
-      var renderedPin = renderPinFromTemplate(offersData[i]);
+    offersData.forEach(function (offerData) {
+      var renderedPin = renderPinFromTemplate(offerData);
       (function () {
-        var data = offersData[i];
+        var data = offerData;
         renderedPin.addEventListener('click', function () {
           closeCard();
           renderCard(data);
@@ -108,8 +111,13 @@
         });
       })();
       result.appendChild(renderedPin);
-    }
+    });
     pinContainerElem.appendChild(result);
+  };
+  var filteredPins = function (offersData) {
+    window.map.ads = offersData;
+    var filteredOffers = window.filter.filterOffers(offersData);
+    renderPins(filteredOffers);
   };
   var removePins = function () {
     var pinButtons = document.querySelectorAll('.map__pin[type=button]');
@@ -138,6 +146,7 @@
     MAP_X_RANGE: MAP_X_RANGE,
     MAP_Y_RANGE: MAP_Y_RANGE,
     avatar: avatar,
-    renderPinFromTemplate: renderPinFromTemplate
+    renderPinFromTemplate: renderPinFromTemplate,
+    filteredPins: filteredPins,
   };
 })();
