@@ -142,6 +142,7 @@
     offerForm.reset();
     window.map.removePins();
     window.map.removePopup();
+    window.form.resetPreview();
     setMainPinStartCoords();
     adAddress.value = getAddress();
   };

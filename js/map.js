@@ -32,14 +32,13 @@
 
 
   var addFacilitiesToOffers = function (facilities) {
-    var FacilitiesToOffers = document.createDocumentFragment();
-    facilities.forEach(function (facility) {
-      var FacilityToOffers = document.createElement('li');
-      FacilityToOffers.classList.add('popup__feature', 'popup__feature--' + facility);
-
-      FacilitiesToOffers.appendChild(FacilityToOffers);
-      return FacilitiesToOffers;
-    });
+    var facilitiesToOffers = document.createDocumentFragment();
+    for (var i = 0; i < facilities.length; i++) {
+      var facilityToOffers = document.createElement('li');
+      facilityToOffers.classList.add('popup__feature', 'popup__feature--' + facilities[i]);
+      facilitiesToOffers.appendChild(facilityToOffers);
+    }
+    return facilitiesToOffers;
   };
 
 
@@ -115,7 +114,7 @@
     pinContainerElem.appendChild(result);
   };
   var filteredPins = function (offersData) {
-    window.map.ads = offersData;
+    window.map.offers = offersData;
     var filteredOffers = window.filter.filterOffers(offersData);
     renderPins(filteredOffers);
   };
