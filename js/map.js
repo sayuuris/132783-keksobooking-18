@@ -21,7 +21,6 @@
     max: 630
   };
 
-  /* var pinsContainer = document.querySelector('.map__pins'); */
   var mapFilter = document.querySelector('.map__filters-container');
   var pinTemplate = document.querySelector('#pin')
     .content
@@ -68,7 +67,9 @@
     cardElem.querySelector('.popup__features').appendChild(addFacilitiesToOffers(offerData.offer.features));
     cardElem.querySelector('.popup__description').textContent = offerData.offer.description;
     cardElem.querySelector('.popup__photos').innerHTML = '';
-    cardElem.querySelector('.popup__avatar').setAttribute('src', offerData.author.avatar);
+    if (offerData.author.avatar) {
+      cardElem.querySelector('.popup__avatar').src = offerData.author.avatar;
+    }
     for (var i = 0; i < offerData.offer.photos.length; i++) {
       var photo = cardPhotoTemplate.cloneNode(true);
       photo.src = offerData.offer.photos[i];
@@ -115,7 +116,7 @@
   };
   var filteredPins = function (offersData) {
     window.map.offers = offersData;
-    var filteredOffers = window.filter.filterOffers(offersData);
+    var filteredOffers = window.filter.filterAds(offersData);
     renderPins(filteredOffers);
   };
   var removePins = function () {

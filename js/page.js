@@ -102,7 +102,7 @@
     window.map.mapElem.classList.remove('map--faded');
     offerForm.classList.remove('ad-form--disabled');
     var formElements = offerForm.querySelectorAll('.ad-form__element');
-    window.backend.load(window.map.filteredPins, getError);
+    window.backend.sendRequest(window.map.filteredPins, getError);
     formElements.forEach(function (item) {
       item.disabled = false;
     });
@@ -117,8 +117,8 @@
     var featuresElement = filterForm.querySelector('.map__features');
     featuresElement.disabled = false;
     adAddress.value = getAddress();
-    /* mainPin.removeEventListener('mousedown', onMainPinMouseDown);
-    mainPin.removeEventListener('keydown', onMainPinKeyDown); */
+    mainPin.removeEventListener('mousedown', onMainPinMouseDown);
+    mainPin.removeEventListener('keydown', onMainPinKeyDown);
   };
 
   var deactivatePage = function () {

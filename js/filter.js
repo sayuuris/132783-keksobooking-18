@@ -59,7 +59,7 @@
     return (offerFeature.offer.features.indexOf(element.value) !== -1) || (!element.checked);
   };
 
-  var filterOffers = function (offersData) {
+  var filterAds = function (offersData) {
     return offersData.filter(function (item) {
       return item.offer && filterByType(item.offer.type) && filterByRooms(item.offer.rooms) && filterByGuests(item.offer.guests) && filterByPrice(item.offer.price) && selectHouseFeatures(filterFeatureWIFI, item) && selectHouseFeatures(filterFeatureDishwasher, item) && selectHouseFeatures(filterFeatureParking, item) && selectHouseFeatures(filterFeatureWasher, item) && selectHouseFeatures(filterFeatureElevator, item) && selectHouseFeatures(filterFeatureConditioner, item);
     });
@@ -68,10 +68,10 @@
   var updatePins = function () {
     window.map.removePopup();
     window.map.removePins();
-    window.map.renderPins(filterOffers(window.map.offers));
+    window.map.renderPins(filterAds(window.map.offers));
   };
   filter.addEventListener('change', window.utils.debounce(updatePins));
   window.filter = {
-    filterOffers: filterOffers
+    filterAds: filterAds
   };
 })();
