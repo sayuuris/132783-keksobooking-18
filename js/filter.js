@@ -72,6 +72,7 @@
     window.map.renderPins(filterAds(window.map.offers));
   };
   filter.addEventListener('change', window.utils.debounce(updatePins));
+
   var deactivateFilter = function () {
     filterItems.forEach(function (it) {
 
