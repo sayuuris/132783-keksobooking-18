@@ -74,7 +74,7 @@
     evt.preventDefault();
     validateCapacity();
     if (evt.currentTarget.checkValidity()) {
-      window.backend.sendRequest(new FormData(offerForm), window.page.showSuccess, window.page.getError);
+      window.backend.save(new FormData(offerForm), window.page.showSuccess, window.page.getError);
     }
     evt.currentTarget.reportValidity();
   });

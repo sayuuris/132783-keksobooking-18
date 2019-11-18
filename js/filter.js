@@ -1,6 +1,7 @@
 'use strict';
 (function () {
   var filter = document.querySelector('.map__filters');
+  var filterItems = filter.querySelectorAll('select, input');
   var filterType = filter.querySelector('#housing-type');
   var filterPrice = filter.querySelector('#housing-price');
   var filterRoom = filter.querySelector('#housing-rooms');
@@ -13,7 +14,7 @@
   var filterFeatureElevator = houseFeatures.querySelector('#filter-elevator');
   var filterFeatureConditioner = houseFeatures.querySelector('#filter-conditioner');
 
-  var HOUSE_PRICE = {
+  var HousePrice = {
     LOW: {
       max: 10000,
     },
@@ -46,10 +47,10 @@
   };
 
   var selectPrice = function (offerPrice) {
-    if (offerPrice < HOUSE_PRICE.LOW.max) {
+    if (offerPrice < HousePrice.LOW.max) {
       return 'low';
     }
-    if (offerPrice > HOUSE_PRICE.HIGH.min) {
+    if (offerPrice > HousePrice.HIGH.min) {
       return 'high';
     }
     return 'middle';
@@ -71,7 +72,23 @@
     window.map.renderPins(filterAds(window.map.offers));
   };
   filter.addEventListener('change', window.utils.debounce(updatePins));
+  var deactivateFilter = function () {
+    filterItems.forEach(function (it) {
+
+      it.disabled = true;
+    });
+    filter.reset();
+  };
+
+  var activateFilter = function () {
+    filterItems.forEach(function (it) {
+      it.disabled = false;
+    });
+  };
+
   window.filter = {
-    filterAds: filterAds
+    filterAds: filterAds,
+    activateFilter: activateFilter,
+    deactivateFilter: deactivateFilter
   };
 })();
