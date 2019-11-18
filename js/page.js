@@ -98,6 +98,7 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
+
   var activatePage = function () {
     window.map.mapElem.classList.remove('map--faded');
     offerForm.classList.remove('ad-form--disabled');
