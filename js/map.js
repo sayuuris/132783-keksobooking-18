@@ -167,9 +167,7 @@
   };
   var filteredPins = function (offersData) {
     window.map.offers = offersData;
-
     var filteredOffers = window.filter.filterAds(offersData);
-
     renderPins(filteredOffers);
   };
   var removePins = function () {
