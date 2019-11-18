@@ -31,6 +31,7 @@
     }
     return ending;
   };
+
   var debounce = function (cb) {
     var lastTimeout = null;
     return function () {
