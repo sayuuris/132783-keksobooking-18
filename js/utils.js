@@ -7,11 +7,7 @@
   var getRandomInt = function (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
-  var getRandomArrFromParent = function (parentArray) {
-    return parentArray.filter(function () {
-      return getRandomInt(0, 1);
-    });
-  };
+
   var getRusApartamentType = function (engApartamentType) {
     switch (engApartamentType) {
       case 'flat':
@@ -52,7 +48,6 @@
     ENTER_KEYCODE: ENTER_KEYCODE,
     ESC_KEYCODE: ESC_KEYCODE,
     getRandomInt: getRandomInt,
-    getRandomArrFromParent: getRandomArrFromParent,
     getRusApartamentType: getRusApartamentType,
     getEndingWordRoom: getEndingWordRoom,
     debounce: debounce

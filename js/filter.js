@@ -1,6 +1,7 @@
 'use strict';
 (function () {
   var filter = document.querySelector('.map__filters');
+  var filterItems = filter.querySelectorAll('select, input');
   var filterType = filter.querySelector('#housing-type');
   var filterPrice = filter.querySelector('#housing-price');
   var filterRoom = filter.querySelector('#housing-rooms');
@@ -13,11 +14,7 @@
   var filterFeatureElevator = houseFeatures.querySelector('#filter-elevator');
   var filterFeatureConditioner = houseFeatures.querySelector('#filter-conditioner');
 
-  var selectHouseFeatures = function (element, offerFeature) {
-    return (offerFeature.offer.features.indexOf(element.value) !== -1) || (!element.checked);
-  };
-
-  var housePrice = {
+  var HousePrice = {
     LOW: {
       max: 10000,
     },
@@ -50,15 +47,20 @@
   };
 
   var selectPrice = function (offerPrice) {
-    if (offerPrice < housePrice.LOW.max) {
+    if (offerPrice < HousePrice.LOW.max) {
       return 'low';
     }
-    if (offerPrice > housePrice.HIGH.min) {
+    if (offerPrice > HousePrice.HIGH.min) {
       return 'high';
     }
     return 'middle';
   };
-  var filterOffers = function (offersData) {
+
+  var selectHouseFeatures = function (element, offerFeature) {
+    return (offerFeature.offer.features.indexOf(element.value) !== -1) || (!element.checked);
+  };
+
+  var filterAds = function (offersData) {
     return offersData.filter(function (item) {
       return item.offer && filterByType(item.offer.type) && filterByRooms(item.offer.rooms) && filterByGuests(item.offer.guests) && filterByPrice(item.offer.price) && selectHouseFeatures(filterFeatureWIFI, item) && selectHouseFeatures(filterFeatureDishwasher, item) && selectHouseFeatures(filterFeatureParking, item) && selectHouseFeatures(filterFeatureWasher, item) && selectHouseFeatures(filterFeatureElevator, item) && selectHouseFeatures(filterFeatureConditioner, item);
     });
@@ -67,10 +69,26 @@
   var updatePins = function () {
     window.map.removePopup();
     window.map.removePins();
-    window.map.renderPins(filterOffers(window.map.ads));
+    window.map.renderPins(filterAds(window.map.offers));
   };
   filter.addEventListener('change', window.utils.debounce(updatePins));
+  var deactivateFilter = function () {
+    filterItems.forEach(function (it) {
+
+      it.disabled = true;
+    });
+    filter.reset();
+  };
+
+  var activateFilter = function () {
+    filterItems.forEach(function (it) {
+      it.disabled = false;
+    });
+  };
+
   window.filter = {
-    filterOffers: filterOffers
+    filterAds: filterAds,
+    activateFilter: activateFilter,
+    deactivateFilter: deactivateFilter
   };
 })();
