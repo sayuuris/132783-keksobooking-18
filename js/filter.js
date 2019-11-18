@@ -14,6 +14,7 @@
   var filterFeatureElevator = houseFeatures.querySelector('#filter-elevator');
   var filterFeatureConditioner = houseFeatures.querySelector('#filter-conditioner');
 
+
   var HousePrice = {
     LOW: {
       max: 10000,
@@ -47,10 +48,12 @@
   };
 
   var selectPrice = function (offerPrice) {
+    
     if (offerPrice < HousePrice.LOW.max) {
       return 'low';
     }
     if (offerPrice > HousePrice.HIGH.min) {
+
       return 'high';
     }
     return 'middle';
@@ -61,6 +64,7 @@
   };
 
   var filterAds = function (offersData) {
+
     return offersData.filter(function (item) {
       return item.offer && filterByType(item.offer.type) && filterByRooms(item.offer.rooms) && filterByGuests(item.offer.guests) && filterByPrice(item.offer.price) && selectHouseFeatures(filterFeatureWIFI, item) && selectHouseFeatures(filterFeatureDishwasher, item) && selectHouseFeatures(filterFeatureParking, item) && selectHouseFeatures(filterFeatureWasher, item) && selectHouseFeatures(filterFeatureElevator, item) && selectHouseFeatures(filterFeatureConditioner, item);
     });
@@ -69,7 +73,9 @@
   var updatePins = function () {
     window.map.removePopup();
     window.map.removePins();
+
     window.map.renderPins(filterAds(window.map.offers));
+
   };
   filter.addEventListener('change', window.utils.debounce(updatePins));
   var deactivateFilter = function () {
