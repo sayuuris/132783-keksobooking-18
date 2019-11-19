@@ -84,13 +84,13 @@
   capacity.addEventListener('change', function () {
     validateCapacity();
   });
-  var onTypeChange = function () {
+  var setMinPrice = function () {
     var minPrice = window.map.OFFER_TYPE_MAP[type.value];
     price.placeholder = minPrice;
     price.min = minPrice;
   };
-  type.addEventListener('change', onTypeChange);
-  onTypeChange();
+  type.addEventListener('change', setMinPrice);
+  setMinPrice();
   timeInField.addEventListener('change', function () {
     timeOutField.value = timeInField.value;
   });

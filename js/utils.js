@@ -4,10 +4,6 @@
   var ESC_KEYCODE = 27;
   var DEBOUNCE_INTERVAL = 500;
 
-  var getRandomInt = function (min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  };
-
   var getRusApartamentType = function (engApartamentType) {
     switch (engApartamentType) {
       case 'flat':
@@ -47,7 +43,6 @@
   window.utils = {
     ENTER_KEYCODE: ENTER_KEYCODE,
     ESC_KEYCODE: ESC_KEYCODE,
-    getRandomInt: getRandomInt,
     getRusApartamentType: getRusApartamentType,
     getEndingWordRoom: getEndingWordRoom,
     debounce: debounce

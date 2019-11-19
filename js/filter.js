@@ -73,14 +73,16 @@
   };
   filter.addEventListener('change', window.utils.debounce(updatePins));
   var deactivateFilter = function () {
+    console.log(filterItems);
     filterItems.forEach(function (it) {
 
       it.disabled = true;
     });
-    filter.reset();
+    // filter.reset();
   };
 
   var activateFilter = function () {
+    console.log(123);
     filterItems.forEach(function (it) {
       it.disabled = false;
     });

@@ -102,8 +102,10 @@
     window.map.mapElem.classList.remove('map--faded');
     offerForm.classList.remove('ad-form--disabled');
     var formElements = offerForm.querySelectorAll('.ad-form__element');
-    window.backend.load(window.map.filteredPins, getError);
-    window.filter.activateFilter();
+    window.backend.load(function (responce) {
+      window.map.filteredPins(responce);
+      // window.filter.activateFilter();
+    }, getError);
     formElements.forEach(function (item) {
       item.disabled = false;
     });
