@@ -4,6 +4,12 @@
   var offerForm = document.querySelector('.ad-form');
   var adAddress = offerForm.querySelector('#address');
   var mainPage = document.querySelector('main');
+  var errorTemplate = document.querySelector('#error').content.querySelector('.error');
+  var errorElement = errorTemplate.cloneNode(true);
+  var errorButton = errorElement.querySelector('.error__button');
+  var successTemplate = document.querySelector('#success').content.querySelector('.success');
+  var successElement = successTemplate.cloneNode(true);
+
   var MAIN_PIN_START_LEFT = 570;
   var MAIN_PIN_START_TOP = 375;
   var CentralPin = {
@@ -15,24 +21,7 @@
     mainPin.style.left = MAIN_PIN_START_LEFT + 'px';
     mainPin.style.top = MAIN_PIN_START_TOP + 'px';
   };
-  var removeSuccessPopup = function () {
-    var popup = mainPage.querySelector('.success');
-    if (popup) {
-      popup.remove();
-    }
-  };
 
-  var onSuccessPopupKeydown = function (evt) {
-    if (evt.keyCode === window.utils.ESC_KEYCODE) {
-      removeSuccessPopup();
-    }
-    document.removeEventListener('keydown', onSuccessPopupKeydown);
-  };
-
-  var onSuccessPopupClick = function () {
-    removeSuccessPopup();
-    document.removeEventListener('keydown', onSuccessPopupClick);
-  };
   var getAddress = function () {
     var peak = window.map.mapElem.classList.contains('map--faded') ? 0 : CentralPin.WIDTH;
     var x = Math.round(parseInt(mainPin.style.left, 10) + CentralPin.HEIGHT / 2);
@@ -140,12 +129,11 @@
   var removeErrorPopup = function () {
     var popup = mainPage.querySelector('.error');
     if (popup) {
-      var errorButton = popup.querySelector('.error__button');
       errorButton.removeEventListener('click', onErrorButtonClick);
       popup.remove();
     }
     document.removeEventListener('keydown', onErrorPopupKeydown);
-    document.removeEventListener('keydown', onErrorPopupClick);
+    document.removeEventListener('click', onErrorPopupClick);
   };
 
   var onErrorPopupKeydown = function (evt) {
@@ -160,21 +148,35 @@
 
   var onErrorButtonClick = function () {
     removeErrorPopup();
-    document.removeEventListener('keydown', onErrorButtonClick);
+    document.removeEventListener('click', onErrorButtonClick);
   };
   var getError = function (message) {
-    var errorTemplate = document.querySelector('#error').content.querySelector('.error');
-    var errorElement = errorTemplate.cloneNode(true);
-    var errorButton = errorElement.querySelector('.error__button');
     errorElement.querySelector('.error__message').textContent = message;
     mainPage.insertBefore(errorElement, mainPage.firstChild);
     errorButton.addEventListener('click', onErrorButtonClick);
-    errorElement.addEventListener('click', onErrorPopupClick);
+    document.addEventListener('click', onErrorPopupClick);
     document.addEventListener('keydown', onErrorPopupKeydown);
   };
+
+  var removeSuccessPopup = function () {
+    var popup = mainPage.querySelector('.success');
+    if (popup) {
+      popup.remove();
+    }
+  };
+
+  var onSuccessPopupKeydown = function (evt) {
+    if (evt.keyCode === window.utils.ESC_KEYCODE) {
+      removeSuccessPopup();
+    }
+    document.removeEventListener('keydown', onSuccessPopupKeydown);
+  };
+
+  var onSuccessPopupClick = function () {
+    removeSuccessPopup();
+    successElement.removeEventListener('click', onSuccessPopupClick);
+  };
   var showSuccess = function () {
-    var successTemplate = document.querySelector('#success').content.querySelector('.success');
-    var successElement = successTemplate.cloneNode(true);
     document.addEventListener('keydown', onSuccessPopupKeydown);
     successElement.addEventListener('click', onSuccessPopupClick);
     mainPage.insertBefore(successElement, mainPage.firstChild);
