@@ -4,7 +4,6 @@
   var offerForm = document.querySelector('.ad-form');
   var adAddress = offerForm.querySelector('#address');
   var mainPage = document.querySelector('main');
-  var filterForm = document.querySelector('.map__filters');
   var MAIN_PIN_START_LEFT = 570;
   var MAIN_PIN_START_TOP = 375;
   var CentralPin = {
@@ -104,7 +103,7 @@
     var formElements = offerForm.querySelectorAll('.ad-form__element');
     window.backend.load(function (responce) {
       window.map.filteredPins(responce);
-      // window.filter.activateFilter();
+      window.filter.activateFilter();
     }, getError);
     formElements.forEach(function (item) {
       item.disabled = false;
@@ -112,13 +111,6 @@
 
     var avatarElement = offerForm.querySelector('.ad-form-header');
     avatarElement.disabled = false;
-
-    var filterElements = filterForm.querySelectorAll('.map__filter');
-    filterElements.forEach(function (item) {
-      item.disabled = false;
-    });
-    var featuresElement = filterForm.querySelector('.map__features');
-    featuresElement.disabled = false;
     adAddress.value = getAddress();
     mainPin.removeEventListener('mousedown', onMainPinMouseDown);
     mainPin.removeEventListener('keydown', onMainPinKeyDown);
@@ -134,14 +126,6 @@
 
     var avatarElement = offerForm.querySelector('.ad-form-header');
     avatarElement.disabled = true;
-
-    var filterElements = offerForm.querySelectorAll('.map__filter');
-    filterElements.forEach(function (item) {
-      item.disabled = true;
-    });
-
-    var featuresElement = filterForm.querySelector('.map__features');
-    featuresElement.disabled = true;
     offerForm.reset();
     window.filter.deactivateFilter();
     window.map.removePins();

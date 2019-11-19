@@ -89,7 +89,9 @@
     price.placeholder = minPrice;
     price.min = minPrice;
   };
-  type.addEventListener('change', setMinPrice);
+  type.addEventListener('change', function () {
+    setMinPrice();
+  });
   setMinPrice();
   timeInField.addEventListener('change', function () {
     timeOutField.value = timeInField.value;
