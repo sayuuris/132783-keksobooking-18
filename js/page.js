@@ -134,6 +134,8 @@
     }
     document.removeEventListener('keydown', onErrorPopupKeydown);
     document.removeEventListener('click', onErrorPopupClick);
+    document.removeEventListener('click', onErrorButtonClick);
+
   };
 
   var onErrorPopupKeydown = function (evt) {
@@ -148,7 +150,6 @@
 
   var onErrorButtonClick = function () {
     removeErrorPopup();
-    document.removeEventListener('click', onErrorButtonClick);
   };
   var getError = function (message) {
     errorElement.querySelector('.error__message').textContent = message;
@@ -163,18 +164,18 @@
     if (popup) {
       popup.remove();
     }
+    document.removeEventListener('keydown', onSuccessPopupKeydown);
+    successElement.removeEventListener('click', onSuccessPopupClick);
   };
 
   var onSuccessPopupKeydown = function (evt) {
     if (evt.keyCode === window.utils.ESC_KEYCODE) {
       removeSuccessPopup();
     }
-    document.removeEventListener('keydown', onSuccessPopupKeydown);
   };
 
   var onSuccessPopupClick = function () {
     removeSuccessPopup();
-    successElement.removeEventListener('click', onSuccessPopupClick);
   };
   var showSuccess = function () {
     document.addEventListener('keydown', onSuccessPopupKeydown);
