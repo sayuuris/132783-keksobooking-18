@@ -129,9 +129,9 @@
   var removeErrorPopup = function () {
     var popup = mainPage.querySelector('.error');
     if (popup) {
-      errorButton.removeEventListener('click', onErrorButtonClick);
       popup.remove();
     }
+    errorButton.removeEventListener('click', onErrorButtonClick);
     document.removeEventListener('keydown', onErrorPopupKeydown);
     document.removeEventListener('click', onErrorPopupClick);
     document.removeEventListener('click', onErrorButtonClick);
